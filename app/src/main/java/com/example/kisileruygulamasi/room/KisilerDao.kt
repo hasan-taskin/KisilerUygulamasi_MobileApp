@@ -1,0 +1,26 @@
+package com.example.kisileruygulamasi.room
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
+import com.example.kisileruygulamasi.data.entity.Kisiler
+
+@Dao
+interface KisilerDao { //Dao: Database Acsess Object : database erişim objesi
+    @Query("SELECT * FROM kisiler")
+    suspend fun kisileriYukle() : List<Kisiler>
+
+    @Insert
+    suspend fun kaydet(kisi : Kisiler)
+
+    @Update
+    suspend fun guncelle(kisi : Kisiler)
+
+    @Delete
+    suspend fun sil(kisi: Kisiler)
+
+    @Query("SELECT * FROM kisiler WHERE kisi_ad LIKE '%' || :aramaKelimesi || '%'")
+    suspend fun ara(aramaKelimesi : String) : List<Kisiler>
+}
